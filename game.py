@@ -20,8 +20,7 @@ class Game:
         #determine word
         w_list = open("words.txt", "r")
         self._word_list = w_list.read().split("\n")
-        self._word = "twine"
-        self._word_list[random.randint(0, 2309)]
+        self._word = self._word_list[random.randint(0, 2309)]
 
         # print(self._word)
 
