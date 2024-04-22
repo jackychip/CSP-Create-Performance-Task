@@ -22,7 +22,7 @@ class Game:
         self._word_list = w_list.read().split("\n")
         self._word = self._word_list[random.randint(0, 5756)]
 
-        print(self._word)
+        # print(self._word)
 
     #getter methods
     def get_board(self):
@@ -30,6 +30,9 @@ class Game:
     
     def get_inputs(self):
         return self._inputs
+
+    def get_word(self):
+        return self._word
 
     #init functions
     def __init_letter_boxes(self):
@@ -100,19 +103,23 @@ class Game:
     
         #evaluate word
         for i in range(5):
-            input_key = self.find_input(word[i])
+            input_key = self._find_input(word[i])
+
             if self._word[i].upper() == word[i]:
                 colour = state.State.GREEN_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                input_key.set_state(colour)
-            elif word[i] in self._word.upper():
+                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value:
+                    input_key.set_state(colour)
+            elif word[i] in self._word.upper() and self._determine_yellow(i, word, self._word.upper()):
                 colour = state.State.YELLOW_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                input_key.set_state(colour)
+                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value:
+                    input_key.set_state(colour)
             else:
                 colour = state.State.GREY_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                input_key.set_state(colour)
+                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value:
+                    input_key.set_state(colour)
             
             self._board[self._current_row][i].set_guess_box()
             input_key.draw_input_box()
@@ -130,10 +137,31 @@ class Game:
         return 0
 
     #helper methods
-    def find_input(self, letter):
+    def _find_input(self, letter):
         for i in range(3):
             for j in range(len(self._inputs[i])):
                 if letter.upper() == self._inputs[i][j].get_letter():
                     return self._inputs[i][j]
                 
         return None
+    
+    def _determine_yellow(self, index, guessed_word, actual_word):
+        letter = guessed_word[index]
+        g_word = guessed_word
+        a_word = actual_word
+
+        for i in range(5):
+            if g_word[i] == letter and a_word[i] == letter:
+                g_word = g_word[0:i] + " " + g_word[i + 1:]
+                a_word = a_word[0:i] + " " + a_word[i + 1:]
+
+        # print(g_word)
+        # print(a_word)
+
+        pointer = index
+        while pointer < 5:
+            if g_word[index] == letter and a_word[pointer] == letter:
+                return True
+            pointer += 1
+
+        return False

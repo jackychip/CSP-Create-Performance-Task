@@ -3,6 +3,7 @@ TO-DO:
 - implement winner and loser screens
 - implement replay feature
 - implement error messages (e.g. word not in list)
+- fix bug where letters already green will show up as yellow in separate space
 '''
 
 import pygame
@@ -39,11 +40,12 @@ while True:
                     break
                 elif game_handler.guess_word() == -1:
                     print("you lost")
+                    print(game_handler.get_word())
                     break
             elif event.key == pygame.K_BACKSPACE:
                 game_handler.remove_letter()
             else:
-                if event.unicode.upper() in "QWERTYUIOPASDFGHJKLZXCVBNM":
+                if event.unicode != "" and event.unicode.upper() in "QWERTYUIOPASDFGHJKLZXCVBNM":
                     game_handler.add_letter(event.unicode.upper())
 
     pygame.display.update()

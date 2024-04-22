@@ -17,6 +17,9 @@ class Input:
     def set_state(self, state:state.State):
         self._state = state
     
+    def get_state(self):
+        return self._state
+    
     def get_letter(self):
         return self._letter
 
