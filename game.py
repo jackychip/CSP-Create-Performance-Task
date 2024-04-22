@@ -20,7 +20,8 @@ class Game:
         #determine word
         w_list = open("words.txt", "r")
         self._word_list = w_list.read().split("\n")
-        self._word = self._word_list[random.randint(0, 5756)]
+        self._word = "twine"
+        self._word_list[random.randint(0, 2309)]
 
         # print(self._word)
 
@@ -108,13 +109,14 @@ class Game:
             if self._word[i].upper() == word[i]:
                 colour = state.State.GREEN_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value:
-                    input_key.set_state(colour)
+                input_key.set_state(colour)
+
             elif word[i] in self._word.upper() and self._determine_yellow(i, word, self._word.upper()):
                 colour = state.State.YELLOW_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value:
+                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value or state.State.GREY_INPUT_BOX:
                     input_key.set_state(colour)
+
             else:
                 colour = state.State.GREY_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
@@ -155,13 +157,11 @@ class Game:
                 g_word = g_word[0:i] + " " + g_word[i + 1:]
                 a_word = a_word[0:i] + " " + a_word[i + 1:]
 
-        # print(g_word)
-        # print(a_word)
+        pointer = 0
+        for idx in range(5):
+            for pointer in range(5):
+                if g_word[idx] == letter and a_word[pointer] == letter:
+                    g_word = g_word[0:idx] + " " + g_word[idx + 1:]
+                    a_word = a_word[0:pointer] + " " + a_word[pointer + 1:]
 
-        pointer = index
-        while pointer < 5:
-            if g_word[index] == letter and a_word[pointer] == letter:
-                return True
-            pointer += 1
-
-        return False
+        return g_word[index] == " "
