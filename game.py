@@ -113,7 +113,7 @@ class Game:
             elif word[i] in self._word.upper() and self._determine_yellow(i, word, self._word.upper()):
                 colour = state.State.YELLOW_LETTER_BOX.value
                 self._board[self._current_row][i].set_state(colour)
-                if input_key.get_state() == state.State.DEFAULT_INPUT_BOX.value or state.State.GREY_INPUT_BOX:
+                if input_key.get_state() != state.State.GREY_INPUT_BOX.value:
                     input_key.set_state(colour)
 
             else:

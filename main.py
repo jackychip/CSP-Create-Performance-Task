@@ -15,7 +15,7 @@ pygame.init()
 WIDTH = 500 
 HEIGHT = 700
 
-#create display and background
+#create display and backgroun
 main_surface = pygame.display.set_mode((WIDTH, HEIGHT))
 main_surface.fill("#121213")
 
