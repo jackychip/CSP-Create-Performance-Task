@@ -3,7 +3,6 @@ TO-DO:
 - implement winner and loser screens
 - implement replay feature
 - implement error messages (e.g. word not in list)
-- fix bug where letters already green will show up as yellow in separate space
 '''
 
 import pygame
@@ -24,28 +23,39 @@ wordle_icon = pygame.image.load("assets/logo.png")
 pygame.display.set_caption("Wordle")
 pygame.display.set_icon(wordle_icon)
 
-#initialize game handler
-game_handler = game.Game(main_surface)
 
-#start game
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit
-            quit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                if game_handler.guess_word() == 1:
-                    print("you won")
-                    break
-                elif game_handler.guess_word() == -1:
-                    print("you lost")
-                    print(game_handler.get_word())
-                    break
-            elif event.key == pygame.K_BACKSPACE:
-                game_handler.remove_letter()
-            else:
-                if event.unicode != "" and event.unicode.upper() in "QWERTYUIOPASDFGHJKLZXCVBNM":
-                    game_handler.add_letter(event.unicode.upper())
+def main():
+    #initialize game handler
+    game_handler = game.Game(main_surface)
+    score = 0
+    game_handler.update_score(score)
 
-    pygame.display.update()
+    #start game
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if game_handler.guess_word() == 1:
+                        pygame.time.wait(500)
+                        score += 1
+                        main_surface.fill("#121213")
+                        game_handler = game.Game(main_surface)
+                        game_handler.update_score(score)
+                    elif game_handler.guess_word() == -1:
+                        pygame.time.wait(500)
+                        score = 0
+                        main_surface.fill("#121213")
+                        game_handler = game.Game(main_surface)
+                        game_handler.update_score(score)
+                elif event.key == pygame.K_BACKSPACE:
+                    game_handler.remove_letter()
+                else:
+                    if event.unicode != "" and event.unicode.upper() in "QWERTYUIOPASDFGHJKLZXCVBNM":
+                        game_handler.add_letter(event.unicode.upper())
+
+        pygame.display.update()
+
+main()

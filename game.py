@@ -22,7 +22,7 @@ class Game:
         self._word_list = w_list.read().split("\n")
         self._word = self._word_list[random.randint(0, 5756)]
 
-        # print(self._word)
+        print(self._word)
 
     #getter methods
     def get_board(self):
@@ -39,7 +39,7 @@ class Game:
         board = []
 
         x = 101
-        y = 77
+        y = 100
         for _ in range(6):
             col = []
             for _ in range(5):
@@ -127,6 +127,7 @@ class Game:
             pygame.display.update()
 
         if word == self._word.upper():
+            
             return 1
         
         if self._current_row == 5:
@@ -136,6 +137,13 @@ class Game:
         self._current_row += 1
 
         return 0
+
+    def update_score(self, score):
+        font = pygame.font.Font("assets/ClearSans-Bold.ttf", 35)
+        text = font.render(str(score), True, "#F8F8F8")
+        text_rect = text.get_rect()
+        text_rect.center = (248, 45)
+        self._main_surface.blit(text, text_rect)
 
     #helper methods
     def _find_input(self, letter):
