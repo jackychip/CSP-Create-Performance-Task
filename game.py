@@ -22,7 +22,7 @@ class Game:
         self._word_list = w_list.read().split("\n")
         self._word = self._word_list[random.randint(0, 5756)]
 
-        print(self._word)
+        # print(self._word)
 
     #getter methods
     def get_board(self):

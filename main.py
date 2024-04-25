@@ -1,10 +1,3 @@
-'''
-TO-DO:
-- implement winner and loser screens
-- implement replay feature
-- implement error messages (e.g. word not in list)
-'''
-
 import pygame
 import game
 
